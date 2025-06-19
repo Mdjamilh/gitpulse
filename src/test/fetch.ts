@@ -17,7 +17,7 @@ export const RATE_HEADERS = {
  * string). Unknown paths return 404. Returns the mock for call assertions.
  */
 export function mockFetch(routes: Record<string, MockRoute | (() => MockRoute)>) {
-  const fn = vi.fn(async (input: RequestInfo | URL) => {
+  const fn = vi.fn(async (input: RequestInfo | URL, _init?: RequestInit) => {
     const url = new URL(typeof input === "string" ? input : input instanceof URL ? input.href : input.url);
     const key = url.pathname + url.search;
     const entry = routes[key];

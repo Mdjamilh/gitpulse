@@ -42,7 +42,7 @@ describe("githubGet", () => {
   it("sends the token only as a bearer header", async () => {
     const fetch = mockFetch({ "/users/octocat": { body: {} } });
     await githubGet("/users/octocat", { token: "ghp_example" });
-    const init = fetch.mock.calls[0][1] as RequestInit;
+    const init = fetch.mock.calls[0][1]!;
     expect((init.headers as Record<string, string>).Authorization).toBe("Bearer ghp_example");
     expect(JSON.stringify(sessionStorage)).not.toContain("ghp_example");
   });
@@ -60,7 +60,7 @@ describe("githubGet", () => {
         headers: { "x-ratelimit-remaining": "0", "x-ratelimit-reset": "1792000600" },
       },
     });
-    const err = await githubGet("/users/octocat").catch((e) => e);
+    const err = await githubGet("/users/octocat").catch((e: Error) => e);
     expect(err).toBeInstanceOf(RateLimitError);
     expect((err as RateLimitError).resetAt).toEqual(new Date(1792000600 * 1000));
   });
@@ -79,7 +79,7 @@ describe("githubGet", () => {
 
   it("uses the API message for other errors", async () => {
     mockFetch({ "/users/octocat": { status: 500, body: { message: "Server exploded" } } });
-    const err = await githubGet("/users/octocat").catch((e) => e);
+    const err = (await githubGet("/users/octocat").catch((e: Error) => e)) as Error;
     expect(err).toBeInstanceOf(GitHubError);
     expect(err.message).toBe("Server exploded");
     expect(sessionStorage.length).toBe(0);

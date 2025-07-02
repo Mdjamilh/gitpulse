@@ -17,8 +17,8 @@ describe("LanguageChart", () => {
     expect(groups).toHaveLength(3);
     const bar = (lang: string) =>
       container.querySelector(`g[data-language="${lang}"] rect:not(.lang-track)`)!.getAttribute("width");
-    expect(bar("TypeScript")).toBe("54%");
-    expect(bar("Go")).toBe("27%");
+    expect(bar("TypeScript")).toBe("48%");
+    expect(bar("Go")).toBe("24%");
   });
 
   it("formats small shares with a decimal", () => {

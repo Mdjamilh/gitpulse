@@ -9,9 +9,10 @@ const ROW = 30;
 const BAR = 14;
 // Horizontal layout in percent of the chart width, so the SVG stays crisp
 // and readable at any width without scaling the text.
-const LABEL_END = 30;
-const BAR_START = 32;
-const BAR_MAX = 54;
+// The right 22% is left free for the value text, even on a 320px screen.
+const LABEL_END = 28;
+const BAR_START = 30;
+const BAR_MAX = 48;
 
 function pct(share: number): string {
   const p = share * 100;

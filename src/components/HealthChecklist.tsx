@@ -41,9 +41,10 @@ export function HealthChecklist({ checks }: Props) {
             {done} of {checks.length} checks done. Showcase repos are the top 6 original repos by stars.
           </p>
         </div>
-        <p className="score" aria-label={`Score ${score} out of 100`}>
-          <span className="score-value">{score}</span>
-          <span className="score-max">/100</span>
+        <p className="score">
+          <span className="visually-hidden">Score: {score} out of 100</span>
+          <span className="score-value" aria-hidden="true">{score}</span>
+          <span className="score-max" aria-hidden="true">/100</span>
         </p>
       </header>
       <ul className="checklist">

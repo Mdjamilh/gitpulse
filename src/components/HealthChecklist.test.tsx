@@ -12,7 +12,7 @@ const checks: HealthCheck[] = [
 describe("HealthChecklist", () => {
   it("shows the score and each check with its status in text", () => {
     render(<HealthChecklist checks={checks} />);
-    expect(screen.getByLabelText("Score 50 out of 100")).toHaveTextContent("50/100");
+    expect(screen.getByText("Score: 50 out of 100")).toBeInTheDocument();
     expect(screen.getByText("1 of 3 checks done.", { exact: false })).toBeInTheDocument();
     expect(screen.getByText(/Repo topics/)).toHaveTextContent("Repo topics (Partly done)");
   });

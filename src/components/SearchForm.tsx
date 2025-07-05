@@ -4,12 +4,11 @@ import { isValidUsername } from "../api/endpoints";
 interface Props {
   initial: string;
   onSearch: (username: string) => void;
-  busy?: boolean;
 }
 
 const EXAMPLES = ["octocat", "gaearon", "sindresorhus"];
 
-export function SearchForm({ initial, onSearch, busy = false }: Props) {
+export function SearchForm({ initial, onSearch }: Props) {
   const [value, setValue] = useState(initial);
   const [error, setError] = useState("");
 
@@ -57,9 +56,7 @@ export function SearchForm({ initial, onSearch, busy = false }: Props) {
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? "username-error" : undefined}
         />
-        <button type="submit" disabled={busy}>
-          {busy ? "Loading" : "Analyze"}
-        </button>
+        <button type="submit">Analyze</button>
       </div>
       {error && (
         <p id="username-error" className="search-error" role="alert">

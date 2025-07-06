@@ -34,8 +34,7 @@ async function routeGitHub(page: Page) {
 function collectErrors(page: Page): string[] {
   const errors: string[] = [];
   page.on("console", (msg) => {
-    // The 404 for the missing profile README is expected and logged by Chrome.
-    if (msg.type() === "error" && !/404/.test(msg.text())) errors.push(msg.text());
+    if (msg.type() === "error") errors.push(msg.text());
   });
   page.on("pageerror", (err) => errors.push(err.message));
   return errors;

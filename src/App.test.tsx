@@ -54,7 +54,8 @@ describe("App", () => {
     expect(within(health).getByText("1 of 2 showcase repos have a description")).toBeInTheDocument();
 
     expect(screen.getByText("57 of 60")).toBeInTheDocument();
-    expect(fetch).toHaveBeenCalledTimes(4);
+    // No octocat/octocat repo in the list, so the README probe is skipped.
+    expect(fetch).toHaveBeenCalledTimes(3);
   });
 
   it("reads the username from the URL", async () => {

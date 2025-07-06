@@ -1,7 +1,8 @@
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useSyncExternalStore } from "react";
 import { BadTokenError, NotFoundError, RateLimitError, getRateLimit, subscribeRateLimit } from "./api/client";
-import { fetchEvents, fetchHasProfileReadme, fetchRepos, fetchUser } from "./api/endpoints";
+import { MAX_REPO_PAGES, fetchEvents, fetchHasProfileReadme, fetchRepos, fetchUser } from "./api/endpoints";
+import type { GitHubRepo } from "./api/types";
 import { useToken } from "./token";
 
 /** Errors that will not fix themselves by retrying straight away. */
@@ -48,12 +49,22 @@ export function useEvents(username: string, enabled = true) {
   });
 }
 
-export function useProfileReadme(username: string, enabled = true) {
+/**
+ * Whether the user has a profile README. Waits for the repo list: if it is
+ * complete and has no username/username repo, the answer is "no" without
+ * spending a request (and without a 404 in the console).
+ */
+export function useProfileReadme(username: string, repos: GitHubRepo[] | undefined) {
   const { token } = useToken();
   return useQuery({
     queryKey: ["profile-readme", username.toLowerCase()],
-    queryFn: ({ signal }) => fetchHasProfileReadme(username, { token, signal }),
-    enabled: enabled && username !== "",
+    queryFn: ({ signal }) => {
+      const complete = (repos?.length ?? 0) < MAX_REPO_PAGES * 100;
+      const hasRepo = repos?.some((r) => r.name.toLowerCase() === username.toLowerCase());
+      if (complete && !hasRepo) return false;
+      return fetchHasProfileReadme(username, { token, signal });
+    },
+    enabled: repos !== undefined && username !== "",
   });
 }
 

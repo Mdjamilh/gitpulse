@@ -24,7 +24,7 @@ export function Dashboard({ username }: { username: string }) {
   const ready = user.isSuccess;
   const repos = useRepos(username, ready);
   const events = useEvents(username, ready);
-  const readme = useProfileReadme(username, ready);
+  const readme = useProfileReadme(username, repos.data);
 
   const derived = useMemo(() => {
     if (!repos.data) return null;

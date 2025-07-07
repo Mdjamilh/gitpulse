@@ -32,7 +32,7 @@ export function TokenPanel({ onChange, defaultOpen = false }: Props) {
       <div className="token-body">
         <p>
           GitPulse calls the GitHub API straight from your browser. Without a token GitHub allows 60 requests per
-          hour; one profile needs 4 to 6. With a token the limit is 5,000.
+          hour; one profile needs 3 to 6. With a token the limit is 5,000.
         </p>
         <ul className="token-facts">
           <li>The token is kept only in this page's memory. It is never saved to storage, cookies or the URL, and it is gone when you reload or close the tab.</li>
